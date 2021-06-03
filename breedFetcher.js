@@ -23,11 +23,12 @@ const finder = (url) => {
     if(error){
       return `Sorry, We hit a little snag 🛑 ☹️. The error is: ${error}. Status Code: ${response} && ${response.statusCode} `
     } else {
-      console.log("success. Request Processing ....")
-      const obj = JSON.parse(body);
+      
     if ((Object.keys).length === 0) {
       console.log("No response");
     } else {
+      console.log("success. Request Processing ....")
+      const obj = JSON.parse(body);
       console.log(obj[0].description, '\n');
     }
     }
