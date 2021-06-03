@@ -24,6 +24,7 @@ const finder = (url) => {
       console.log("No response");
     } else {
       console.log(obj[0].description);
+      console.log();
     }
   });
 };
