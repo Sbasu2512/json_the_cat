@@ -1,9 +1,5 @@
 const request = require('request');
 const args = process.argv.splice(2);
-//let search = args[0];
-// console.log(search);
-// let URL = `api.thecatapi.com/v1/breeds/search?q=${search}` ;
-//const URL = `https://api.thecatapi.com/v1/breeds/search?q=${search}`;
 
 const search = (arr) => {
   for(ele of arr){
@@ -19,19 +15,22 @@ const search = (arr) => {
 //console.log(URL(args));
 const finder = (url) => {
   request(url, (error, response, body) => {
-    const obj = JSON.parse(body);
-    if (obj === undefined) {
-      console.log("No response");
+    if(error){
+      return `Sorry, We hit a little snag 🛑 ☹️. The error is: ${error}. Status Code: ${response} && ${response.statusCode} `
     } else {
-      console.log(obj[0].description);
-      console.log();
+      console.log("success. Request Processing ....")
+      const obj = JSON.parse(body);
+      console.log("No response");
+      return obj[0].description ;
     }
-  });
+    });
 };
 
 search(args);
- 
-// for (let ele of args) {
-//   console.log(ele);
-//   finder(URLmaker(ele));
-// }
+
+
+/*
+
+
+
+*/
