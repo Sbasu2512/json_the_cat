@@ -25,7 +25,7 @@ const finder = (url) => {
     } else {
       console.log("success. Request Processing ....")
       const obj = JSON.parse(body);
-    if (obj === undefined) {
+    if ((Object.keys).length === 0) {
       console.log("No response");
     } else {
       console.log(obj[0].description, '\n');
