@@ -20,10 +20,14 @@ const finder = (url) => {
     } else {
       console.log("success. Request Processing ....")
       const obj = JSON.parse(body);
+    if (obj === undefined) {
       console.log("No response");
-      return obj[0].description ;
+    } else {
+      console.log(obj[0].description, '\n');
     }
-    });
+    }
+    
+  });
 };
 
 search(args);
