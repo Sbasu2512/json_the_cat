@@ -3,8 +3,13 @@ const args = process.argv.splice(2);
 
 const search = (arr) => {
   for(ele of arr){
-    URL(ele);
-  }
+    if(typeof(ele) === 'string')
+    {
+      URL(ele);
+    } else {
+      console.log("enter a string");
+    }
+  } 
 }
 
  const URL = (term) => {
@@ -36,5 +41,8 @@ search(args);
 /*
 
 
+  for(ele of arr){
+    URL(ele);
+  }
 
 */
