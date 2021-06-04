@@ -1,40 +1,45 @@
 const request = require("request");
-const args = process.argv.splice(2);
+//const args = process.argv.splice(2);
 
-const search = (arr) => {
+const search = (arr, callback) => {
+  //console.log('search');
   for (ele of arr) {
-    if (typeof ele === "string") {
-      URL(ele);
-    } else {
-      console.log("enter a string");
-    }
+    urlMaker(ele, callback);
   }
 };
 
-const URL = (term) => {
+const urlMaker = (term, callback ) => {
+  //console.log('urlMaker');
   const site = `https://api.thecatapi.com/v1/breeds/search?q=${term}`;
-  finder(site);
+  callback(site);
+  //return result ;
 };
 
-//console.log(URL(args));
-const finder = (url) => {
-  request(url, (error, response, body) => {
+const breedFetcher = (url) => {
+   request(url, (error, response, body) => {
     if (error) {
-      return `Sorry, We hit a little snag 🛑 ☹️. The error is: ${error}. Status Code: ${response} && ${response.statusCode} `;
+      console.log(`Sorry, We hit a little snag 🛑 😨 😵‍💫. The error is: ${error}.`)
+      //return `Sorry, We hit a little snag 🛑 😨 😵‍💫. The error is: ${error}.  `;
     } else {
-      if (Object.keys.length === 0) {
-        console.log("No response");
+      const obj = JSON.parse(body);
+      // console.log('breedFetcher',Object.keys(obj));
+      if (Object.keys(obj).length === 0) {
+        //return ("No response 😨 😵‍💫");
+        console.log("No resp");
       } else {
-        console.log("success. Request Processing ....");
-        const obj = JSON.parse(body);
-        console.log(obj[0].description, "\n");
+        //console.log("else statement triggered", obj[0]);
+        //return ` Success,🥳🥳🥳 Description is: \n  ${obj[0].description} \n` ;
+      console.log(`Success,🥳🥳🥳 Description is: \n  ${obj[0].description} \n`)
       }
     }
   });
+  //console.log(result);
+  //return result ;
 };
 
-//search(args);
-module.exports = search;
+//console.log(search(args));
+
+module.exports = {search, breedFetcher };
 
 /*
 
