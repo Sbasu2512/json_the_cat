@@ -1,72 +1,52 @@
 const request = require("request");
 //const args = process.argv.splice(2);
-
+//search takes in an array, a getBreed Parameter and a callback
 const search = (arr, getBreed, callback) => {     //getBreed is BreedFetcher call back :)
-   console.log('search');
-  //let result = '' ;
+   console.log('search in progress...');
   for (ele of arr) {
-   //const url = urlMaker(ele); 
-   //let breedDescription =  urlMaker(ele, callback);
    console.log('breedDescription');
-    //return callback(ele);
-   //result = result.concat(breedDescription);
-   getBreed(ele, callback);
+   //getBreed is BreedFetcher because BreedFetcher is called in the callback search!
+   getBreed(ele, callback);  // ele is required by urlMaker to make url to give breedFetcher          
   }
-  //return result ;
 };
-
+//a function that takes an element and interpolates it to the site variable! It returns site which is required by BreedFetcher fn.
 const urlMaker = (term) => {
   //console.log('urlMaker');
   const site = `https://api.thecatapi.com/v1/breeds/search?q=${term}`;
-  //it recognizes breedFetcher because breedFetcher is passeed into the function in index.js.
-  //const result = callback(site); 
   return site ;
 };
-
-// const breedNameFetcher = (nameFinder) => {
-//   console.log(nameFinder.map((breed,index)=>{
-//     return `${index} : ${breed.name}`;
-    
-//   })
-  
-//   );
-
-// }
-
-
+//a function that takes in a term parameter and a callback parameter
 const breedFetcher = (term, callback) => {
-  //console.log("1234");
-  const url = urlMaker(term);  
+//console.log("inside breedFetcher");
+//calling urlMaker to make the url
+  const url = urlMaker(term);             
   request(url, (error, response, body) => {
     if (error) {
-       //console.log("error");
-      //   `Sorry, We hit a little snag 🛑 😨 😵‍💫. The error is: ${error}.`
-      // );
-      return callback(error, null);
+      return callback(error, null); //callback gets error msg and logs it!
     }
+    if(response.statusCode !== 200){
+      // console.log("inside respose error")
+       const msg = `Status Code ${response.statusCode} when fetching. Response: ${body}`;
+       //console.log("line 16")
+       callback(Error(msg), null);
+       return;
+     }
     const obj = JSON.parse(body);
-     // console.log('breedFetcher',Object.keys(obj));
     if (Object.keys(obj).length === 0) {
-      //return ("No response 😨 😵‍💫");
-       // console.log("No resp");
       callback('Breed Not Found',null);
       return;
     } 
-      callback(null, obj[0].description);
-    
-    
-    //breedNameFetcher(obj); //${obj[0].name}
-    //console.log("else statement triggered", obj[0]);
-    //return obj[0].description ;
-    //console.log(`1 Success,🥳🥳🥳 Description of is: \n  ${obj[0].description} `);
-    //return;
-    //Success,🥳🥳🥳 Description is: \n
+    /*line  is equal to 
+    search((obj[0].description)=>{
+      console.log(obj[0].description)
+    } 
+    check where the func is called!
+    */
+      callback(null, obj[0].description); //call gets the description and logs it.
   });
-  //console.log(result);
-  //return result ;
+  
 };
 
-//console.log(search(args));
 module.exports = {search, breedFetcher };
 
 /*
